@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.37.0 (HEAD)
+  labels:
+    io.kompose.service: be
+  name: be
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: be
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.37.0 (HEAD)
+      labels:
+        io.kompose.service: be
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - npx sequelize-cli db:migrate && npm start
+          env:
+            - name: CONF_PATH
+              value: /usr/src/app/config/
+            - name: LOGS_PATH
+              value: /usr/src/app/logs/
+            - name: NODE_ENV
+              value: production
+          image: collaborativedhs/dafne:be-4.1.1
+          name: be
+          ports:
+            - containerPort: 2000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /usr/src/app/config
+              name: be-config
+              readOnly: true
+            - mountPath: /usr/src/app/logs
+              name: be-logs
+      hostname: backend
+      restartPolicy: Always
+      volumes:
+        - name: be-config
+          configMap:
+            name: be-config
+        - name: be-logs
+          emptyDir: {}
