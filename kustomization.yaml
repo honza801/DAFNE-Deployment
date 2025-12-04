@@ -1,0 +1,21 @@
+namespace: default
+
+configMapGenerator:
+  - name: fe-config
+    files:
+      - config.json=data/dafne/front-end/config/config.json
+  - name: be-config
+    files:
+      - config.json=data/dafne/back-end/config/config.json
+      - db_credentials.env=data/dafne/back-end/config/db_credentials.env
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+  #- k8s/be-claim0-persistentvolumeclaim.yaml
+  #- k8s/be-claim1-persistentvolumeclaim.yaml
+  - k8s/be-deployment.yaml
+  - k8s/be-service.yaml
+  #- k8s/fe-claim0-persistentvolumeclaim.yaml
+  - k8s/fe-deployment.yaml
+  - k8s/fe-service.yaml
