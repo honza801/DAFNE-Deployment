@@ -1,4 +1,5 @@
 namespace: default
+namePrefix: dafne-
 
 configMapGenerator:
   - name: fe-config
