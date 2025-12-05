@@ -20,3 +20,4 @@ resources:
   #- k8s/fe-claim0-persistentvolumeclaim.yaml
   - k8s/fe-deployment.yaml
   - k8s/fe-service.yaml
+  - k8s/fe-ingress.yaml

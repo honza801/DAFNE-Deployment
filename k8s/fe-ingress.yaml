@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fe-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - dafne.domain.tld
+      secretName: dafne-cert
+  rules:
+    - host: dafne.domain.tld
+      http:
+        paths:
+          - path: /dafne(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: fe
+                port:
+                  number: 8080
+          - path: /dafne-be(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: be
+                port:
+                  number: 3000
