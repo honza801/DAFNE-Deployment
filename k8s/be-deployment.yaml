@@ -24,9 +24,8 @@ spec:
     spec:
       containers:
         - args:
-            - bash
-            - -c
-            - npx sequelize-cli db:migrate && npm start
+            - sh
+            - ./start.sh
           env:
             - name: CONF_PATH
               value: /usr/src/app/config/
@@ -34,7 +33,7 @@ spec:
               value: /usr/src/app/logs/
             - name: NODE_ENV
               value: production
-          image: collaborativedhs/dafne:be-4.1.1
+          image: collaborativedhs/dafne:be-4.3.1
           name: be
           ports:
             - containerPort: 2000
